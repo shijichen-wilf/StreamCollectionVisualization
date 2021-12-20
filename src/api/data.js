@@ -36,6 +36,13 @@ export const uploadImg = formData => {
   })
 }
 
+export const getRegisters = () => {
+  return axios.request({
+    url: 'manager/getRegisters',
+    method: 'get'
+  })
+}
+
 export const getOrgData = () => {
   return axios.request({
     url: 'get_org_data',

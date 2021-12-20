@@ -3,7 +3,7 @@
     <Row :gutter="20" style="margin-top: 10px;">
       <i-col :md="24" :lg="8" style="margin-bottom: 20px;">
         <Card shadow>
-          <chart-pie style="height: 300px;" :value="pieData" text="用户访问来源"></chart-pie>
+          <chart-pie ref="chart-pie" style="height: 300px;" :value="pieData" text="用户访问来源"></chart-pie>
         </Card>
       </i-col>
       <i-col :md="24" :lg="16" style="margin-bottom: 20px;">
@@ -23,22 +23,17 @@
 <script>
 import { ChartPie, ChartBar } from '_c/charts'
 import Example from './example.vue'
+import { getRegisters } from '@/api/data'
 export default {
   name: 'home',
   components: {
-    ChartPie,
+    'chart-pie': ChartPie,
     ChartBar,
     Example
   },
   data () {
     return {
-      pieData: [
-        { value: 335, name: '直接访问' },
-        { value: 310, name: '邮件营销' },
-        { value: 234, name: '联盟广告' },
-        { value: 135, name: '视频广告' },
-        { value: 1548, name: '搜索引擎' }
-      ],
+      pieData: [],
       barData: {
         Mon: 13253,
         Tue: 34235,
@@ -52,6 +47,25 @@ export default {
   },
   mounted () {
     //
+    this.timeTest()
+  },
+  methods: {
+    timeTest () {
+      let tmp = []
+      getRegisters().then(res => {
+        console.log(111)
+        tmp = [
+          { value: 335, name: '直接访问' },
+          { value: 310, name: '邮件营销' },
+          { value: 234, name: '联盟广告' },
+          { value: 135, name: '视频广告' },
+          { value: 1548, name: '搜索引擎' }
+        ]
+        // this.$refs.ChartPie.setValue(tmp)
+        // this.$refs["ChartPie"].setValue(tmp)
+        this.$refs['chart-pie'].refresh(tmp)
+      })
+    }
   }
 }
 </script>
